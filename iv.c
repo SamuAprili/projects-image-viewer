@@ -91,6 +91,21 @@ int main(int argc, char* argv[]){
 		// P6 format elaboration
 		else if (format[1] == '6') {
 			printf("control p6\n");
+			// prints the value on the surface (specific for retina display)
+			int retina_width = width * 2;
+			int retina_height = height * 2;
+			SDL_Rect rect = {0, 0, 2, 2};
+			Uint8 r, g, b;
+			for (int y = 0; y < retina_height; y+=2) {
+				for (int x = 0; x < retina_width; x+=2) {
+					rect.x = x;
+					rect.y = y;
+					r = fgetc(file);
+					g = fgetc(file);
+					b = fgetc(file);
+					SDL_FillRect(surface, &rect, SDL_MapRGB(surface->format, r, g, b));
+				}
+			}
 		}
 
 		// closes the file and updates the window surface
